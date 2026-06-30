@@ -120,7 +120,38 @@ For example, a Linux server and a Windows server may use different protocols, bu
 * Reboot actions
 
 ---
+## Protocol-First Integration
 
+Sentinel should be able to interact with almost anything that can communicate.
+
+The platform should not be limited to modern APIs or cloud-native tools.
+
+Many real environments contain older systems, embedded devices, industrial equipment, telecom platforms, appliances, and custom hardware.
+
+Sentinel should support these systems through protocols first and product integrations second.
+
+Examples include:
+
+- SSH
+- Serial
+- Telnet
+- REST
+- WebSocket
+- SNMP
+- MQTT
+- Modbus
+- TL1
+- NETCONF
+- gNMI
+- WMI
+- WinRM
+- Vendor CLI adapters
+
+This allows Sentinel to support everything from an ESP32 sensor to enterprise virtualization platforms, network switches, optical transport systems, and datacenter infrastructure.
+
+Product-specific integrations can then be built on top of these protocol layers.
+
+---
 ### Plugins
 
 Plugins extend Sentinel.
