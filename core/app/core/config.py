@@ -6,8 +6,9 @@ class Settings(BaseSettings):
     environment: str = "development"
     api_prefix: str = "/api/v1"
 
+    vault_key: str
+
     class Config:
         env_file = ".env"
-
 
 settings = Settings()

@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 
 from app.connectors.ssh_connector import SSHConnector
 from app.database.session import get_db
-from app.schemas.assets import Asset
-from app.schemas.assets import AssetCreate
+from app.schemas.assets import Asset, AssetCreate
 from app.schemas.ssh import SSHDiscoveryRequest
 from app.services.asset_registry import asset_registry
+from app.vault.service import vault_service
 
 router = APIRouter(prefix="/connectors/ssh", tags=["connectors"])
 
@@ -16,13 +16,18 @@ async def discover_linux_host(
     payload: SSHDiscoveryRequest,
     db: Session = Depends(get_db),
 ):
+    credential = vault_service.get(db, payload.credential_id)
+
+    if credential is None:
+        raise HTTPException(status_code=404, detail="Credential not found")
+
     connector = SSHConnector()
 
     try:
         metadata = connector.discover(
             host=payload.host,
-            username=payload.username,
-            password=payload.password,
+            username=credential.username,
+            password=credential.secret,
             port=payload.port,
         )
     except Exception as exc:
